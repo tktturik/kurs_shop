@@ -1,0 +1,81 @@
+
+
+@font-face {
+    font-family: 'Font';
+    src: url('../fonts/Font.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'NunitoReg';
+    src: url('../fonts/Nunito-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'NunitoSemiBold';
+    src: url('../fonts/Nunito-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'NunitoLight';
+    src: url('../fonts/Nunito-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+  }
+.footer{
+    background-color: #2142bb;
+    width: auto;
+    height: auto;
+    color: white;
+}
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: start;
+    width: auto;
+    padding: 24px;
+    margin: 0;
+  }
+  .blocks{
+    gap: 15px;
+    margin: 10px;
+    flex-direction: column;
+    display: flex;
+  }
+  .blocks a{
+    font-family: "NunitoLight";
+    font-size: 18px;
+    transition: color 0.3s ease;
+    text-decoration: none;
+    color: white;
+  }
+  .blocks h1{
+    font-family: "NunitoSemiBold";
+    font-size: 28px;
+  }
+  .blocks p{
+    font-family: "NunitoLight";
+    font-size: 18px;
+    margin: 0;
+  }
+  .contact-item{
+    flex-direction: row;
+    gap: 5px;
+    display: flex;
+    align-items: center;
+    height: auto;
+
+  }
+  .Icons-container{
+    flex-direction: row;
+    display: flex;
+    gap: 10px;
+  }
+  .icon{
+    font-size: 30px;
+    color: white;
+  }

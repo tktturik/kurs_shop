@@ -1,0 +1,153 @@
+
+
+@font-face {
+  font-family: 'Font';
+  src: url('../fonts/Font.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'NunitoReg';
+  src: url('../fonts/Nunito-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NunitoSemiBold';
+  src: url('../fonts/Nunito-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NunitoLight';
+  src: url('../fonts/Nunito-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+.header {
+  background-color: #2142bb; 
+  color: white;
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
+  width: auto;
+}
+
+.header-container {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  height: 80px;
+  width: auto;
+  padding: 0 24px;
+}
+
+/* Стили логотипа */
+.logo h1 {
+  font-size: 32px;
+  margin: 0;
+  color: white;
+  font-family: 'NunitoSemiBold', sans-serif;
+}
+
+/* Центрирование меню */
+.menu-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+/* Стили навигации (меню) */
+.desktop-menu {
+  display: flex;
+  gap: 24px; /* Расстояние между ссылками */
+}
+
+.desktop-menu .menu-item {
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  font-family: 'NunitoReg', sans-serif;
+  transition: color 0.3s ease;
+}
+
+.desktop-menu .menu-item:hover {
+  color: #60A5FA;
+}
+
+/* Стили блока действий */
+.actions {
+  display: flex;
+  gap: 16px;
+  justify-self: end;
+}
+
+/* Поле поиска */
+.search-input {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  padding: 6px 12px;
+  background-color: #3255d357;
+}
+
+.search-input input {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: white;
+  font-family: 'NunitoLight', sans-serif;
+}
+
+.search-input input::placeholder {
+  color: #fcfdfecf;
+}
+
+.search-button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+.search-button:hover {
+  color: #60A5FA;
+}
+
+/* Кнопки действий */
+.action-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 32px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.action-button:hover {
+  color: #60A5FA;
+}
+
+/* Корзина с бейджем */
+.cart-button {
+  position: relative;
+  font-size: 32px;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -4px;
+  background: #df7341;
+  color: white;
+  font-size: 18px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'NunitoSemiBold', sans-serif;
+}
