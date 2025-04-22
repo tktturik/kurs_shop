@@ -2,8 +2,7 @@ from pydantic import BaseModel
 from typing import Optional
 
 class UserBase(BaseModel):
-    name: str
-    surname: str
+    firstname: str
     role: str = "user" 
     avatar: Optional[str] = None 
     email: str

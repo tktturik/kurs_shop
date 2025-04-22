@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from app.models.users import User
 from app.schemas import UserCreate, UserLogin, User as UserSchema
 from app.db import get_db
+from app.utils.auth import pwd_context
 
 router = APIRouter(
     prefix="/users",
@@ -15,13 +16,13 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     for i in users:
         if i.email == user.email:
             raise HTTPException(status_code=400, detail="Пользователь с таким email уже существует")
+    hashed_password = pwd_context.hash(user.password)
     db_user = User(
-        name=user.name,
-        surname = user.surname,
+        firstname=user.firstname,
         role=user.role,
         avatar=user.avatar,
         email=user.email,
-        password=user.password
+        password=hashed_password
     )
     db.add(db_user)
     db.commit()
@@ -38,14 +39,9 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
     users = db.query(User).all()   
     for i in users:
         if i.email == user.email:
-            if user.password == i.password:
-                return i  # Возвращаем пользователя, если все ок
-            else:
-                raise HTTPException(
-                    status_code=status.HTTP_401_UNAUTHORIZED,
-                    detail="Неверный пароль"
-                )
+            if pwd_context.verify(user.password, i.password):
+                return i
     raise HTTPException(
-        status_code=status.HTTP_404_NOT_FOUND,
-        detail="Пользователь с таким email не найден"
-    )
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Неверный email или пароль"
+    ) 
