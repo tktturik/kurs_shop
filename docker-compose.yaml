@@ -22,7 +22,7 @@ services:
       - db
 
   db:
-    image: postgres:16.0
+    image: postgres:14
     container_name: postgres-db  
     environment:
       POSTGRES_USER: ${DB_USER}           
@@ -36,7 +36,7 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"  
+      - "5433:5432"  
 
 volumes:
   pgdata:
