@@ -1,8 +1,8 @@
-from app.schemas import ManufacturerCreate, Manufacturer
-from app.db import get_db
+from schemas import ManufacturerCreate, Manufacturer
+from db import get_db
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends, HTTPException
-import app.models.manufacturers as models
+import models.manufacturers as models
 
 router = APIRouter(
     prefix="/manufacturers",

@@ -1,8 +1,8 @@
-from app.schemas import AddressCreate, Address
-from app.db import get_db
+from schemas import AddressCreate, Address
+from db import get_db
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends, HTTPException
-import app.models.addresses as models
+import models.addresses as models
 
 router = APIRouter(
     prefix="/addresses",
