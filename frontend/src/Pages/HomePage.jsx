@@ -1,12 +1,50 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '../Components/Header';
 import Footer from '../Components/Footer';
 import GridCards from '../Components/GridCards';
 import SliderCards from '../Components/SliderCard';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Row, Col, Form, Dropdown, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../config';
 
 const HomePage = () => {
+
+  const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE_URL}/users/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error('Unauthorized');
+        }
+
+        const user = await res.json();
+        console.log('Logged in as:', user);
+
+      } catch (error) {
+        console.error('Token verification failed:', error);
+        localStorage.removeItem('token'); 
+        navigate('/login'); 
+      }
+    };
+
+    checkAuth();
+  }, [navigate]);
+
   return (
     <div>
       <Header></Header>

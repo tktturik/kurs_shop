@@ -1,32 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LockOutlined, UserOutlined ,MailOutlined} from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Flex } from 'antd';
-import bcrypt from 'bcryptjs';
 import { Alert } from "antd";
 import { useNavigate } from 'react-router-dom'; 
-
+import { API_BASE_URL } from '../config';
 
 const App = () => {
   const [form] = Form.useForm();
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
+  const [firstname, setName] = useState("");
   const [password, setPassword] = useState("");
   const [isLoginForm, setLoginForm] = useState(false);
   const [alertMessage, setAlertMessage] = useState(null); 
 
   const navigate = useNavigate(); 
-  const fixedSalt = '$2a$10$abcdefghijklmnopqrstuv';
-  const hashed_password = async(password)=>{
-    const hash = await bcrypt.hash(password,fixedSalt);
-    return hash;
-  };
+  
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/users/me`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (response.ok) {
+          navigate('/home'); 
+        } else {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+        }
+      } catch (error) {
+        console.error('Auth check failed:', error);
+      } finally {
+        setIsCheckingAuth(false);
+      }
+    };
+
+    checkAuth();
+  }, [navigate]);
 
   const onCreateNewUser = async ()=>{
-    const hash_password = await hashed_password(password);
-    const formData = {name,surname,email,password:hash_password};
+    const formData = {firstname,email,password};
     try{
-        const response = await fetch("/users/registration",{
+        const response = await fetch(`${API_BASE_URL}/users/registration`,{
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,6 +60,8 @@ const App = () => {
         });
         const data = await response.json();
         if (response.ok){
+            localStorage.setItem('token',data.access_token);
+            localStorage.setItem('user',JSON.stringify(data.user));
             navigate('/home');
         }
         
@@ -46,10 +72,9 @@ const App = () => {
   };
   
   const onLogin = async ()=>{
-      const hash_password = await hashed_password(password);
-      const formData = {email,password:hash_password};
+      const formData = {email,password};
       try{
-        const response = await fetch("/users/login",{
+        const response = await fetch(`${API_BASE_URL}/users/login`,{
           method: "POST",
           headers: {
             "Content-type":"application/json"
@@ -58,7 +83,8 @@ const App = () => {
         });
         const data = await response.json();
         if (response.ok){
-          console.log(data)
+          localStorage.setItem("token", data.access_token);
+          localStorage.setItem("user", JSON.stringify(data.user));
           navigate("/home");
         }else{
             if (response.status === 401){
@@ -66,10 +92,8 @@ const App = () => {
 
             }else if(response.status === 404){
                 setAlertMessage({ type: 'error', message: 'Неверная почта!' });
-
             }
         }
-        
       }catch(error){
         console.log("error",error)
       }
@@ -99,7 +123,6 @@ const App = () => {
         }}
           onFinish={onLogin}
       >
-
         <Form.Item
           name="email"
           rules={[
@@ -107,6 +130,10 @@ const App = () => {
               required: true,
               message: 'Пожалуйста введите ваш email!',
             },
+            {
+              pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+              message: 'Введите корректный email',
+            }, 
           ]}
         >
           <Input prefix={<MailOutlined />} placeholder="Email" value={email} onChange={(e)=>setEmail(e.target.value)}/>
@@ -162,18 +189,7 @@ const App = () => {
             },
           ]}
         >
-          <Input prefix={<UserOutlined />} placeholder="Имя" value={name} onChange={(e)=>setName(e.target.value)}/>
-        </Form.Item>
-        <Form.Item
-          name="surname"
-          rules={[
-            {
-              required: true,
-              message: 'Пожалуйста введите вашу Фамилию!',
-            },
-          ]}
-        >
-          <Input prefix={<UserOutlined />} placeholder="Фамилия" value={surname} onChange={(e)=>setSurname(e.target.value)}/>
+          <Input prefix={<UserOutlined />} placeholder="Имя" value={firstname} onChange={(e)=>setName(e.target.value)}/>
         </Form.Item>
         <Form.Item
           name="password"
