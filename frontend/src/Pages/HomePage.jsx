@@ -1,92 +1,92 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../Components/Header';
 import Footer from '../Components/Footer';
 import GridCards from '../Components/GridCards';
 import SliderCards from '../Components/SliderCard';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Row, Col, Form, Dropdown, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../config';
+import { checkAuth } from '../utils/authCheck';
+import { Helmet } from 'react-helmet-async';
 
 const HomePage = () => {
+  const [products, setProducts] = useState([]);
+  const [sortOption, setSortOption] = useState('');
 
   const navigate = useNavigate();
 
-
   useEffect(() => {
-    const checkAuth = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        navigate('/login');
-        return;
-      }
+    const fetchData = async () => {
+      await checkAuth(navigate); 
+
+      const token = localStorage.getItem('token'); 
 
       try {
-        const res = await fetch(`${API_BASE_URL}/users/me`, {
+        const productsRes = await fetch(`${API_BASE_URL}/products/showall`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        if (!res.ok) {
-          throw new Error('Unauthorized');
+        if (!productsRes.ok) {
+          throw new Error('Failed to fetch products');
         }
 
-        const user = await res.json();
-        console.log('Logged in as:', user);
-
+        const data = await productsRes.json();
+        setProducts(data);
       } catch (error) {
-        console.error('Token verification failed:', error);
-        localStorage.removeItem('token'); 
-        navigate('/login'); 
+        console.error('Ошибка загрузки товаров:', error);
       }
     };
 
-    checkAuth();
+    fetchData();
   }, [navigate]);
+
+  const getSortedProducts = () => {
+    const sorted = [...products]; 
+    switch (sortOption) {
+      case 'priceLowToHigh':
+        return sorted.sort((a, b) => a.price - b.price); 
+      case 'priceHighToLow':
+        return sorted.sort((a, b) => b.price - a.price); 
+      case 'name':
+        return sorted.sort((a, b) => a.name.localeCompare(b.name)); 
+      default:
+        return sorted;
+      }
+  };
 
   return (
     <div>
-      <Header></Header>
-        <main>
-          
-          <h2 style={{marginLeft: "120px", marginTop: "50px"}}>В тренде</h2>
-          <SliderCards></SliderCards>
-          <h2 style={{marginLeft: "120px"}}>Все товары</h2>
-          <div className="my-4 p-3 px-5 bg-light rounded shadow-sm">
-            <Row className="align-items-center g-3">
-              <Col md={4}>
-                <Form.Select aria-label="Выбор категории">
-                  <option>Все категории</option>
-                  <option value="smartphones">Смартфоны</option>
-                  <option value="laptops">Ноутбуки</option>
-                  <option value="tv">Телевизоры</option>
-                  <option value="audio">Аудио</option>
-                </Form.Select>
-              </Col>
-              <Col md={4}>
-                <Dropdown>
-                  <Dropdown.Toggle variant="secondary" id="dropdown-sort">
-                    Сортировка
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    <Dropdown.Item>По популярности</Dropdown.Item>
-                    <Dropdown.Item>По цене: сначала дешёвые</Dropdown.Item>
-                    <Dropdown.Item>По цене: сначала дорогие</Dropdown.Item>
-                    <Dropdown.Item>По новизне</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </Col>
-              <Col md={4} className="text-end">
-                <Button variant="outline-primary" className="me-2">Сбросить</Button>
-                <Button variant="primary">Показать</Button>
-              </Col>
-            </Row>
-          </div>
+      <Helmet>
+        <title>Главная</title>
+      </Helmet>
+      <Header />
+      <main>
+        <h2 className='my-4 p-3 px-5'>В тренде</h2>
+        <SliderCards />
+        <h2 className='my-4 p-3 px-5'>Все товары</h2>
 
-          <GridCards></GridCards>
-        </main>
-      <Footer></Footer>
+        <div className="my-4 p-3 px-5 bg-light rounded shadow-sm">
+          <div className="d-flex align-items-center gap-3">
+              <Dropdown>
+                <Dropdown.Toggle variant="secondary" id="dropdown-sort">
+                  Сортировка
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item onClick={() =>setSortOption("priceLowToHigh")}>По цене: сначала дешёвые</Dropdown.Item>
+                  <Dropdown.Item onClick={() =>setSortOption("priceHighToLow")}>По цене: сначала дорогие</Dropdown.Item>
+                  <Dropdown.Item onClick={() =>setSortOption("name")}>По названию</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+              <Button variant="outline-primary" className="gap-3" onClick={()=>setSortOption('')}>Сбросить</Button>
+          </div>
+        </div>
+
+        <GridCards products={getSortedProducts()} />
+      </main>
+      <Footer />
     </div>
   );
 };

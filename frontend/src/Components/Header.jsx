@@ -1,12 +1,24 @@
 import { SearchOutlined, UserOutlined, ShoppingCartOutlined, MenuOutlined } from '@ant-design/icons';
-import './Header.css'; 
+import '../styles/Header.css';
+import '../styles/fonts.css';
+import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import logo from '../../public/logo.svg'
 
 const AppHeader = () => {
+
+  const [cartItems, setCartItems] = useState(0);
+  useEffect(()=>{
+    const quantityShopCart = (JSON.parse(localStorage.getItem('cart')) || []);
+    setCartItems(quantityShopCart.length);
+  },[]);
   return (
     <div className="header">
     <div className="header-container">
-      <div className="logo">
-        <h1>К&Е Электроника</h1>
+    <div className="logo">
+      <Link to="/home" style={{ textDecoration: 'none' }}>
+      <h1>К&Е Электроника</h1>
+      </Link>
       </div>
   
       <div className="menu-wrapper">
@@ -29,10 +41,11 @@ const AppHeader = () => {
         <button className="action-button">
           <UserOutlined />
         </button>
-        <button className="action-button cart-button">
+        <Link className="action-button cart-button" to='/shopcart' style={{ textDecoration: 'none'}}>
           <ShoppingCartOutlined />
-          <span className="cart-badge">5</span>
-        </button>
+          {cartItems> 0 && (
+  <span className="cart-badge">{cartItems}</span>)} 
+       </Link>
       </div>
     </div>
   </div>

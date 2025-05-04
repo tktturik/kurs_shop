@@ -1,4 +1,5 @@
-import './Footer.css';
+import '../styles/Footer.css';
+import '../styles/fonts.css';
 import { YoutubeOutlined, InstagramOutlined, PhoneOutlined, MailOutlined, EnvironmentOutlined, WhatsAppOutlined} from '@ant-design/icons';
 
 const AppFooter = ()=> {
