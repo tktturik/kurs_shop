@@ -1,4 +1,4 @@
-from schemas import CategoryCreate, Category
+from schemas import CategoryCreate, Category, CategoryName
 from db import get_db
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends, HTTPException
@@ -27,7 +27,7 @@ def get_categories(parent_id: Optional[int] = None, db: Session = Depends(get_db
         categories = db.query(models.Category).filter(models.Category.parentcategoryid == parent_id).all()
     return categories
 
-@router.get("/tree", response_model=list[Category])
+@router.get("/tree", response_model=list[CategoryName])
 def get_category_tree(db: Session = Depends(get_db)):
     categories = db.query(models.Category.categoryname).all()
     return categories
