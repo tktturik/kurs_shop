@@ -29,7 +29,7 @@ def get_categories(parent_id: Optional[int] = None, db: Session = Depends(get_db
 
 @router.get("/tree", response_model=list[Category])
 def get_category_tree(db: Session = Depends(get_db)):
-    categories = db.query(models.Category).all()
+    categories = db.query(models.Category.categoryname).all()
     return categories
 
 
