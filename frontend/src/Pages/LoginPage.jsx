@@ -4,6 +4,7 @@ import { Button, Checkbox, Form, Input, Flex } from 'antd';
 import { Alert } from "antd";
 import { useNavigate } from 'react-router-dom'; 
 import { API_BASE_URL } from '../config';
+import { Helmet } from "react-helmet-async";
 
 const App = () => {
   const [form] = Form.useForm();
@@ -101,6 +102,9 @@ const App = () => {
 
     return (
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column'   }}>
+        <Helmet>
+          <title>Вход</title>
+        </Helmet>
         {alertMessage && (
   <Alert
     message={alertMessage.message}

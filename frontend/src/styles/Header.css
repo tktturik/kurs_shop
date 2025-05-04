@@ -1,31 +1,4 @@
 
-
-@font-face {
-  font-family: 'Font';
-  src: url('../../public/fonts/Font.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'NunitoReg';
-  src: url('../../public/fonts/Nunito-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'NunitoSemiBold';
-  src: url('../../public/fonts/Nunito-SemiBold.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'NunitoLight';
-  src: url('../../public/fonts/Nunito-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-}
 .header {
   background-color: #2142bb; 
   color: white;
@@ -74,14 +47,12 @@
   color: #60A5FA;
 }
 
-/* Стили блока действий */
 .actions {
   display: flex;
   gap: 16px;
   justify-self: end;
 }
 
-/* Поле поиска */
 .search-input {
   display: flex;
   align-items: center;
@@ -116,7 +87,6 @@
   color: #60A5FA;
 }
 
-/* Кнопки действий */
 .action-button {
   background: none;
   border: none;
@@ -130,7 +100,6 @@
   color: #60A5FA;
 }
 
-/* Корзина с бейджем */
 .cart-button {
   position: relative;
   font-size: 32px;
@@ -138,8 +107,8 @@
 
 .cart-badge {
   position: absolute;
-  top: -8px;
-  right: -4px;
+  top: -6px;
+  right: -8px;
   background: #df7341;
   color: white;
   font-size: 18px;

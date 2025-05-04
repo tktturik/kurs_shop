@@ -37,3 +37,9 @@ def find_by_name(name: str, db: Session = Depends(get_db)):
     return products
 
 
+@router.get("/{product_id}", response_model=Product)
+def get_product(product_id: int, db: Session = Depends(get_db)):
+    product = db.query(models.Product).filter(models.Product.id == product_id).first()
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    return product
