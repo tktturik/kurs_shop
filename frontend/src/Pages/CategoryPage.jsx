@@ -6,6 +6,7 @@ import { checkAuth } from '../utils/authCheck';
 import Header from '../Components/Header';
 import Footer from '../Components/Footer';
 import SliderCards from '../Components/SliderCard';
+import HorizontalCard from '../Components/HorizontalCard';
 import { Helmet } from 'react-helmet-async';
 
 
@@ -21,7 +22,7 @@ const CategoryPage = () => {
         
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch(`${API_BASE_URL}/products/${category}`, {
+        const res = await fetch(`${API_BASE_URL}/products/products_by_category/?parent_category_name=${category}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -33,6 +34,7 @@ const CategoryPage = () => {
 
         const data = await res.json();
         setProducts(data);
+        console.log(products)
       } catch (error) {
         console.error('Ошибка загрузки продукта:', error);
       }
@@ -72,10 +74,15 @@ const CategoryPage = () => {
             <Col md={9}>
                 <HorizontalCard product={product} />
             </Col>
-            <Col md={3} className="d-flex flex-column align-items-end">
-            <Button variant="primary" size="lg" active>
-                     <i class="bi bi-bag-plus"></i>
-                </Button>
+            <Col md={3} className="d-flex flex-column align-items-start">
+            <Button
+              variant="primary"
+              size="lg"
+              className="w-70"
+              onClick={() => addToCart(product)}
+            >
+              Добавить в корзину
+            </Button>
             </Col>
             </Row>
         ))}

@@ -74,7 +74,7 @@ const ProductPage = () => {
               fluid
               className="rounded shadow-sm w-100 align-self-stretch"
               style={{
-                objectFit: 'contain', // или 'cover' в зависимости от предпочтений
+                objectFit: 'contain', 
                 maxHeight: '70vh'
                 }}
             />
@@ -112,7 +112,7 @@ const ProductPage = () => {
                 />
                 <Button
                   variant="secondary"
-                  onClick={() => setQuantity((q) => q + 1)}
+                  onClick={() => setQuantity((q) => Math.min(product.quantity,q + 1))}
                 >
                   +
                 </Button>

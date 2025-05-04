@@ -103,7 +103,7 @@ def get_products_by_category(
 
 @router.get("/trend_products", response_model=list[Product])
 def get_trend_products(db: Session = Depends(get_db)):
-    products = db.query(models.Product).order_by(models.Product.quantity.asc()).limit(5).all()
+    products = db.query(models.Product).order_by(models.Product.quantity.asc()).limit(12).all()
     return products
 
 @router.get("/new_products", response_model=list[Product])

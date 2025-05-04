@@ -13,7 +13,7 @@ const SliderCards = () => {
   const fetchData = async () => {  
         const token = localStorage.getItem('token'); 
         try {
-          const productsRes = await fetch(`${API_BASE_URL}/products/show_pagging?skip=3&limit=6`, {
+          const productsRes = await fetch(`${API_BASE_URL}/products/trend_products`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
