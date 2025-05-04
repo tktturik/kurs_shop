@@ -19,6 +19,13 @@ class Product(ProductBase):
         orm_mode = True
         from_attributes = True
 
+class ProductInfo(BaseModel):
+    name: str
+    description: str
+    image: str
+    quantity: int
+    price: float
+
 
     
     

@@ -9,6 +9,9 @@ class CategoryBase(BaseModel):
 class CategoryCreate(CategoryBase):
     pass
 
+class CategoryName(BaseModel):
+    categoryname: str
+
 class Category(CategoryBase):
     id: int
     

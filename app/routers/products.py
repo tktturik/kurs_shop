@@ -1,4 +1,4 @@
-from schemas import ProductCreate, Product
+from schemas import ProductCreate, Product, ProductInfo
 from db import get_db
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends, HTTPException, Query
@@ -114,7 +114,7 @@ def get_new_products(db: Session = Depends(get_db)):
 
 
 
-@router.get("/{product_id}", response_model=Product)
+@router.get("/{product_id}", response_model=ProductInfo)
 def get_product(product_id: int, db: Session = Depends(get_db)):
     product = db.query(models.Product).filter(models.Product.id == product_id).first()
     if not product:
