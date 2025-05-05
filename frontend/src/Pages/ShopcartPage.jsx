@@ -77,7 +77,7 @@ const ShopcartPage = () => {
         </div>
 
         <div className="d-flex justify-content-end mt-3">
-          <Button variant="success" size="lg" href='/payment'>Перейти к оплате</Button>
+          <Button variant="success" size="lg" href='/payment' onClick={()=>clearCart()}>Перейти к оплате</Button>
         </div>
       </Container>
       <Footer />

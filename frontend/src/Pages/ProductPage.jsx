@@ -83,7 +83,7 @@ const ProductPage = () => {
           <Col md={6}>
             <h2 className="fw-bold">{product.name}</h2>
             <div className="d-flex gap-3 my-3">
-              <Badge bg="secondary">{product.category || 'Category'}</Badge>
+              <Badge bg="secondary">{product.category_name || 'Category'}</Badge>
               <Badge bg="success">В наличии</Badge>
             </div>
 

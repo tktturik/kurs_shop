@@ -1,4 +1,4 @@
-from schemas import ProductCreate, Product, ProductInfo
+from schemas import ProductCreate, Product, ProductInfo, PaginatedProductsResponse, Category
 from db import get_db
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends, HTTPException, Query
@@ -25,16 +25,21 @@ def get_products(db: Session = Depends(get_db)):
     products = db.query(models.Product).all()
     return products
 
-@router.get("/show_pagging", response_model=list[Product])
+@router.get("/show_pagging", response_model=PaginatedProductsResponse)
 def get_some_products(
     skip: int = Query(0),
     limit: int = Query(5),
     db: Session = Depends(get_db)
 ):
     products = db.query(models.Product).offset(skip).limit(limit).all()
-    return products
+    total = db.query(models.Product).count()
 
-@router.get("/find_by_name", response_model=list[Product])
+    return {
+        "products":products,
+        "total":total
+    }
+
+@router.get("/find_by_name", response_model=Product)
 def find_by_name(name: str, db: Session = Depends(get_db)):
     products = db.query(models.Product).filter(models.Product.name == name).all()
     return products
@@ -116,7 +121,16 @@ def get_new_products(db: Session = Depends(get_db)):
 
 @router.get("/{product_id}", response_model=ProductInfo)
 def get_product(product_id: int, db: Session = Depends(get_db)):
-    product = db.query(models.Product).filter(models.Product.id == product_id).first()
+    product = db.query(models.Product).get(product_id)
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
-    return product
+
+    
+    return ProductInfo(
+            name=product.name,
+            description=product.description,
+            image=product.image,
+            quantity=product.quantity,
+            price=product.price,
+            category_name=product.category.categoryname  
+        )

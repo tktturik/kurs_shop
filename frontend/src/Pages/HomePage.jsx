@@ -9,10 +9,15 @@ import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../config';
 import { checkAuth } from '../utils/authCheck';
 import { Helmet } from 'react-helmet-async';
+import { Pagination } from 'antd';
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
   const [sortOption, setSortOption] = useState('');
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const pageSize = 15;
 
   const navigate = useNavigate();
 
@@ -21,9 +26,10 @@ const HomePage = () => {
       await checkAuth(navigate); 
 
       const token = localStorage.getItem('token'); 
+      const skip = (currentPage - 1) * pageSize;
 
       try {
-        const productsRes = await fetch(`${API_BASE_URL}/products/showall`, {
+        const productsRes = await fetch(`${API_BASE_URL}/products/show_pagging?skip=${skip}&limit=${pageSize}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -34,14 +40,16 @@ const HomePage = () => {
         }
 
         const data = await productsRes.json();
-        setProducts(data);
+        setProducts(data.products);
+        console.log(products);
+        setTotalProducts(data.total);
       } catch (error) {
         console.error('Ошибка загрузки товаров:', error);
       }
     };
 
     fetchData();
-  }, [navigate]);
+  }, [navigate,currentPage]);
 
   const getSortedProducts = () => {
     const sorted = [...products]; 
@@ -55,6 +63,9 @@ const HomePage = () => {
       default:
         return sorted;
       }
+  };
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
   return (
@@ -85,6 +96,15 @@ const HomePage = () => {
         </div>
 
         <GridCards products={getSortedProducts()} />
+        <div className="d-flex justify-content-center my-4">
+          <Pagination
+            current={currentPage}
+            total={totalProducts}
+            pageSize={pageSize}
+            onChange={handlePageChange}
+            showSizeChanger={false}
+          />
+        </div>
       </main>
       <Footer />
     </div>

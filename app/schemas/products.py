@@ -16,7 +16,6 @@ class ProductCreate(ProductBase):
 class Product(ProductBase):
     id: int
     class Config:
-        orm_mode = True
         from_attributes = True
 
 class ProductInfo(BaseModel):
@@ -26,6 +25,15 @@ class ProductInfo(BaseModel):
     quantity: int
     price: float
 
+    category_name: str  
+    
+    class Config:
+        from_attributes = True
+
+
+class PaginatedProductsResponse(BaseModel):
+    products: list[Product]
+    total: int
 
     
     

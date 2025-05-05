@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { LockOutlined, UserOutlined ,MailOutlined} from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, Flex } from 'antd';
+import { Button, Checkbox, Form, Input, Flex, message } from 'antd';
 import { Alert } from "antd";
 import { useNavigate } from 'react-router-dom'; 
 import { API_BASE_URL } from '../config';
@@ -64,6 +64,9 @@ const App = () => {
             localStorage.setItem('token',data.access_token);
             localStorage.setItem('user',JSON.stringify(data.user));
             navigate('/home');
+        }else if(response.status == 400)
+        {
+          setAlertMessage({type: "error",message: "Пользователь с таким email уже существует"});
         }
         
         console.log("Response from server:", data);

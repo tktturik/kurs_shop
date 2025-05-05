@@ -39,7 +39,7 @@ const AppHeader = () => {
     <div className="header">
       <div className="header-container">
         <div className="logo">
-          <Link to="/" style={{ textDecoration: 'none' }}>
+          <Link to="/home" style={{ textDecoration: 'none' }}>
             <h1>К&Е Электроника</h1>
           </Link>
         </div>
@@ -75,18 +75,13 @@ const AppHeader = () => {
         </div>
 
         <div className="actions">
-          <div className="search-input">
-            <input type="text" placeholder="Поиск товаров" />
-            <button className="search-button">
-              <SearchOutlined />
-            </button>
-          </div>
           <Link className="action-button cart-button" to='/shopcart' style={{ textDecoration: 'none' }}>
             <ShoppingCartOutlined />
             {cartItems > 0 && (
               <span className="cart-badge">{cartItems}</span>
             )}
           </Link>
+          <h2 className='phone-text'>+7 (999) 123 45 67</h2>
         </div>
       </div>
     </div>

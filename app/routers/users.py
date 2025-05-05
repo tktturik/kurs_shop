@@ -41,11 +41,11 @@ async def verify_jwt_token(token: str = Depends(oauth2_scheme)):
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])  # Декодируем токен
-        if payload.get("sub") is None:  # Проверяем обязательное поле
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])  
+        if payload.get("sub") is None:  
             raise credentials_exception
         return payload
-    except JWTError:  # Ловим ошибки: поддельный токен, истекший срок и т.д.
+    except JWTError:  
         raise credentials_exception
 
 @router.post("/registration", response_model=UserResponse)
