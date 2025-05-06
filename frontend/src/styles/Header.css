@@ -48,8 +48,8 @@
 .actions {
   display: flex;
   gap: 16px;
-  justify-self: end;
-  
+  justify-content: center; 
+  align-items: center;
 }
 
 .search-input {
@@ -119,4 +119,17 @@
   align-items: center;
   justify-content: center;
   font-family: 'NunitoSemiBold', sans-serif;
+}
+.exit-icon {
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 32px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: color 0.3s ease;
 }

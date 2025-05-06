@@ -1,8 +1,8 @@
 import { SearchOutlined, UserOutlined, ShoppingCartOutlined, DownOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { href, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Dropdown, Space } from 'antd';
-import logo from '../../public/logo.svg';
+import exit from '../../public/exit.svg';
 import '../styles/Header.css';
 import '../styles/fonts.css';
 
@@ -33,6 +33,9 @@ const AppHeader = () => {
     } catch (error) {
       console.error(`Ошибка загрузки подкатегорий для id=${parentId}`, error);
     }
+  };
+  const exitFunc = async()=>{
+    localStorage.removeItem('token');
   };
 
   return (
@@ -75,13 +78,16 @@ const AppHeader = () => {
         </div>
 
         <div className="actions">
+          <h2 className='phone-text'>+7 (999) 123 45 67</h2>
           <Link className="action-button cart-button" to='/shopcart' style={{ textDecoration: 'none' }}>
             <ShoppingCartOutlined />
             {cartItems > 0 && (
               <span className="cart-badge">{cartItems}</span>
             )}
           </Link>
-          <h2 className='phone-text'>+7 (999) 123 45 67</h2>
+          <Link to='/' style={{ textDecoration: 'none' }}>
+            <img src={exit} onClick={()=>exitFunc()} className='exit-icon'></img>
+          </Link>
         </div>
       </div>
     </div>
