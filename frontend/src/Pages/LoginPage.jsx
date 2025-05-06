@@ -15,6 +15,8 @@ const App = () => {
   const [alertMessage, setAlertMessage] = useState(null); 
 
   const navigate = useNavigate(); 
+
+  const fixedSalt = '$2a$10$abcdefghijklmnopqrstuv';
   
 
   useEffect(() => {
@@ -49,6 +51,7 @@ const App = () => {
   }, [navigate]);
 
   const onCreateNewUser = async ()=>{
+
     const formData = {firstname,email,password};
     try{
         const response = await fetch(`${API_BASE_URL}/users/registration`,{
@@ -76,6 +79,7 @@ const App = () => {
   };
   
   const onLogin = async ()=>{
+
       const formData = {email,password};
       try{
         const response = await fetch(`${API_BASE_URL}/users/login`,{

@@ -18,8 +18,10 @@ const HomePage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
   const pageSize = 15;
+  
 
   const navigate = useNavigate();
+  
 
   useEffect(() => {
     const fetchData = async () => {

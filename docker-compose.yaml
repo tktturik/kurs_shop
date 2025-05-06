@@ -8,8 +8,7 @@ services:
       - "80:80"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./frontend/public/Fonts:/usr/share/nginx/html/fonts:ro  # Шрифты
-
+      - ./frontend/public/Fonts:/usr/share/nginx/html/fonts:ro
     environment:
       BACKEND_HOST: backend
       BACKEND_PORT: 8000
@@ -24,7 +23,7 @@ services:
     env_file:
       - ./app/.env
     depends_on:
-      postgres: 
+      postgres:
         condition: service_healthy
 
   postgres:
@@ -34,13 +33,11 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
-    ports:
-      - "5433:5432"
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - pg_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d my_db"]
+      test: ["CMD-SHELL", "pg_isready -U $${DB_USER} -d $${DB_NAME}"]
       interval: 10s
       timeout: 5s
       retries: 5
