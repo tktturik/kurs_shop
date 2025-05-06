@@ -3,12 +3,13 @@ import '../styles/fonts.css';
 import { YoutubeOutlined, InstagramOutlined, PhoneOutlined, MailOutlined, EnvironmentOutlined, WhatsAppOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { API_BASE_URL } from '../config';
 
 const AppFooter = () => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/categories/')
+    fetch(`${API_BASE_URL}/categories/`)
       .then(res => res.json())
       .then(data => setCategories(data))
       .catch(err => console.error('Ошибка загрузки категорий:', err));
