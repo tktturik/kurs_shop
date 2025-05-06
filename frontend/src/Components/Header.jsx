@@ -18,7 +18,7 @@ const AppHeader = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`http://${API_BASE_URL}/categories/`)
+    fetch(`${API_BASE_URL}/categories/`)
       .then(res => res.json())
       .then(data => setCategories(data))
       .catch(err => console.error('Ошибка загрузки категорий:', err));
@@ -28,7 +28,7 @@ const AppHeader = () => {
     if (subcategories[parentId]) return;
 
     try {
-      const res = await fetch(`http://${API_BASE_URL}/categories/?parent_id=${parentId}`);
+      const res = await fetch(`${API_BASE_URL}/categories/?parent_id=${parentId}`);
       const data = await res.json();
       setSubcategories(prev => ({ ...prev, [parentId]: data }));
     } catch (error) {
