@@ -5,6 +5,7 @@ import { Dropdown, Space } from 'antd';
 import exit from '../../public/exit.svg';
 import '../styles/Header.css';
 import '../styles/fonts.css';
+import { API_BASE_URL } from '../config';
 
 const AppHeader = () => {
   const [cartItems, setCartItems] = useState(0);
@@ -17,7 +18,7 @@ const AppHeader = () => {
   }, []);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/categories/')
+    fetch(`http://${API_BASE_URL}/categories/`)
       .then(res => res.json())
       .then(data => setCategories(data))
       .catch(err => console.error('Ошибка загрузки категорий:', err));
@@ -27,7 +28,7 @@ const AppHeader = () => {
     if (subcategories[parentId]) return;
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/categories/?parent_id=${parentId}`);
+      const res = await fetch(`http://${API_BASE_URL}/categories/?parent_id=${parentId}`);
       const data = await res.json();
       setSubcategories(prev => ({ ...prev, [parentId]: data }));
     } catch (error) {
