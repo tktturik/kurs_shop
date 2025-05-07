@@ -26,7 +26,9 @@ origins = [
     "http://localhost:5174",
     "http://127.0.0.1:5174",
     "http://localhost:3000",
-    "http://195.133.194.105"
+    "http://195.133.194.105",
+    "http://sosiskaviord.duckdns.org",
+    "https://sosiskaviord.duckdns.org"
 ]
 
 
@@ -42,8 +44,8 @@ app.add_middleware(
     allow_methods=["*"],    
     allow_headers=["*"],    
 )
-app.include_router(users.router)
-app.include_router(products.router)
-app.include_router(categories.router)
-app.include_router(manufacturers.router)
-app.include_router(addresses.router)
+app.include_router(users.router,prefix="/api")
+app.include_router(products.router,prefix="/api")
+app.include_router(categories.router,prefix="/api")
+app.include_router(manufacturers.router,prefix="/api")
+app.include_router(addresses.router,prefix="/api")
