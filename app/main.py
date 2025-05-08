@@ -35,7 +35,7 @@ origins = [
 
 
 
-app = FastAPI()
+app = FastAPI(root_path="/api")
 
 app.add_middleware(
     CORSMiddleware,
@@ -44,8 +44,8 @@ app.add_middleware(
     allow_methods=["*"],    
     allow_headers=["*"],    
 )
-app.include_router(users.router,prefix="/api")
-app.include_router(products.router,prefix="/api")
-app.include_router(categories.router,prefix="/api")
-app.include_router(manufacturers.router,prefix="/api")
-app.include_router(addresses.router,prefix="/api")
+app.include_router(users.router)
+app.include_router(products.router)
+app.include_router(categories.router)
+app.include_router(manufacturers.router)
+app.include_router(addresses.router)
